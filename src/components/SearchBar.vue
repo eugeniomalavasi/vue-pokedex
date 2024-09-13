@@ -1,24 +1,42 @@
 <script>
     import axios from 'axios';
+
     export default {
         data() {
             return {
                 baseUrl: 'https://pokeapi.co/api/v2/pokemon',
                 pokemonInp: null,
-                results: []
+                results: [] // Make sure it's an array initially
+            }
+        },
+        created() {
+            // Retrieve the pokedex from localStorage
+            const localPokedex = localStorage.getItem("pokedex");
+            if (localPokedex) {
+                // Parse localStorage data and ensure it's an array
+                this.results = JSON.parse(localPokedex) || [];
             }
         },
         methods: {
             pokeSearch() {
                 axios
                     .get(`${this.baseUrl}/${this.pokemonInp.toLowerCase()}`)
-                    .then((resp => {
+                    .then(resp => {
+                        const newPokemon = resp.data;
 
-                        this.results = resp.data;
-                        console.log(this.results);
-                    }));
+                        // Push new Pokémon data to the results array
+                        this.results.push(newPokemon);
 
-            },
+                        // Save the updated array to localStorage
+                        localStorage.setItem("pokedex", JSON.stringify(this.results));
+
+                        // Clear the input field
+                        this.pokemonInp = '';
+                    })
+                    .catch(error => {
+                        console.error("Error fetching the Pokémon data:", error);
+                    });
+            }
         },
     }
 </script>
@@ -27,33 +45,24 @@
     <div>
         <label for="searchInp">Pokemon Name</label>
         <input type="text" id="searchInp" v-model="pokemonInp">
-        <button type="submit" @click="pokeSearch()" class="btn btn-outline-primary">search</button>
+        <button type="submit" @click="pokeSearch()" class="btn btn-outline-primary">Search</button>
     </div>
 
-    <div class="card" style="width: 18rem;" v-if="results!=''">
-        <img :src="results.sprites.back_default" class="card-img-top" alt="...">
+    <div v-for="(pokemon, index) in results" :key="index" class="card mt-4" style="width: 18rem;">
+        <img :src="pokemon.sprites.front_default" class="card-img-top" :alt="pokemon.name">
         <div class="card-body">
-            <h5 class="card-title">{{ results.name }}</h5>
+            <h5 class="card-title">{{ pokemon.name }}</h5>
             <div class="container">
                 <div class="row">
-                    <div class="col"> {{ results.stats[0].stat.name }} {{ results.stats[0].base_stat }}
-                    </div>
-                    <div class="col"> {{ results.stats[1].stat.name }} {{ results.stats[1].base_stat }}
-                    </div>
-                    <div class="col"> {{ results.stats[2].stat.name }} {{ results.stats[2].base_stat }}
-                    </div>
-                    <div class="col"> {{ results.stats[3].stat.name }} {{ results.stats[3].base_stat }}
-                    </div>
-                    <div class="col"> {{ results.stats[4].stat.name }} {{ results.stats[4].base_stat }}
-                    </div>
-                    <div class="col"> {{ results.stats[5].stat.name }} {{ results.stats[5].base_stat }}
+                    <div class="col" v-for="(stat, statIndex) in pokemon.stats" :key="statIndex">
+                        {{ stat.stat.name }}: {{ stat.base_stat }}
                     </div>
                 </div>
             </div>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
     </div>
 </template>
+
 
 <style lang="scss" scoped>
 

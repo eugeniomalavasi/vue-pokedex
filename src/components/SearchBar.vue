@@ -6,14 +6,12 @@
             return {
                 baseUrl: 'https://pokeapi.co/api/v2/pokemon',
                 pokemonInp: null,
-                results: [] // Make sure it's an array initially
+                results: []
             }
         },
         created() {
-            // Retrieve the pokedex from localStorage
             const localPokedex = localStorage.getItem("pokedex");
             if (localPokedex) {
-                // Parse localStorage data and ensure it's an array
                 this.results = JSON.parse(localPokedex) || [];
             }
         },
@@ -24,13 +22,10 @@
                     .then(resp => {
                         const newPokemon = resp.data;
 
-                        // Push new Pokémon data to the results array
                         this.results.push(newPokemon);
 
-                        // Save the updated array to localStorage
                         localStorage.setItem("pokedex", JSON.stringify(this.results));
 
-                        // Clear the input field
                         this.pokemonInp = '';
                     })
                     .catch(error => {

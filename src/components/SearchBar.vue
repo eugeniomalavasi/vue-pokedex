@@ -31,31 +31,40 @@
                     .catch(error => {
                         console.error("Error fetching the Pokémon data:", error);
                     });
+            },
+            pokeDelete(index) {
+                this.results.splice(index,1);
+                localStorage.setItem("pokedex", JSON.stringify(this.results));
+                console.log('deleted');
+                
             }
         },
     }
 </script>
 
 <template>
-    <div>
-        <label for="searchInp">Pokemon Name</label>
-        <input type="text" id="searchInp" v-model="pokemonInp">
-        <button type="submit" @click="pokeSearch()" class="btn btn-outline-primary">Search</button>
-    </div>
+    <div class="container">
+        <div>
+            <label for="searchInp">Pokemon Name</label>
+            <input type="text" id="searchInp" v-model="pokemonInp">
+            <button type="submit" @click="pokeSearch()" class="btn btn-outline-primary">Search</button>
+        </div>
 
-    <div v-for="(pokemon, index) in results" :key="index" class="card mt-4" style="width: 18rem;">
-        <img :src="pokemon.sprites.front_default" class="card-img-top" :alt="pokemon.name">
-        <div class="card-body">
-            <h5 class="card-title">{{ pokemon.name }}</h5>
-            <div class="container">
-                <div class="row">
+        <div class="row">
+            <div class="col border" v-for="(pokemon, index) in results" :key="index">
+                <img :src="pokemon.sprites.front_default" class="card-img-top" :alt="pokemon.name">
+                <div class="card-body row">
+                    <h5 class="card-title">{{ pokemon.name }}</h5>
                     <div class="col" v-for="(stat, statIndex) in pokemon.stats" :key="statIndex">
                         {{ stat.stat.name }}: {{ stat.base_stat }}
                     </div>
                 </div>
+                <button type="submit" class="btn btn-danger" @click="pokeDelete(index)">delete</button>
             </div>
         </div>
     </div>
+
+
 </template>
 
 

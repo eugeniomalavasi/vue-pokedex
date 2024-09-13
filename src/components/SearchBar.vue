@@ -30,23 +30,23 @@
         <button type="submit" @click="pokeSearch()" class="btn btn-outline-primary">search</button>
     </div>
 
-    <div class="card" style="width: 18rem;" v-if="this.results!=''">
-        <img src="..." class="card-img-top" alt="...">
+    <div class="card" style="width: 18rem;" v-if="results!=''">
+        <img :src="results.sprites.back_default" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{ this.results.name }}</h5>
+            <h5 class="card-title">{{ results.name }}</h5>
             <div class="container">
                 <div class="row">
-                    <div class="col"> {{ this.results.stats[0].stat.name }} {{ this.results.stats[0].base_stat }}
+                    <div class="col"> {{ results.stats[0].stat.name }} {{ results.stats[0].base_stat }}
                     </div>
-                    <div class="col"> {{ this.results.stats[1].stat.name }} {{ this.results.stats[1].base_stat }}
+                    <div class="col"> {{ results.stats[1].stat.name }} {{ results.stats[1].base_stat }}
                     </div>
-                    <div class="col"> {{ this.results.stats[2].stat.name }} {{ this.results.stats[2].base_stat }}
+                    <div class="col"> {{ results.stats[2].stat.name }} {{ results.stats[2].base_stat }}
                     </div>
-                    <div class="col"> {{ this.results.stats[3].stat.name }} {{ this.results.stats[3].base_stat }}
+                    <div class="col"> {{ results.stats[3].stat.name }} {{ results.stats[3].base_stat }}
                     </div>
-                    <div class="col"> {{ this.results.stats[4].stat.name }} {{ this.results.stats[4].base_stat }}
+                    <div class="col"> {{ results.stats[4].stat.name }} {{ results.stats[4].base_stat }}
                     </div>
-                    <div class="col"> {{ this.results.stats[5].stat.name }} {{ this.results.stats[5].base_stat }}
+                    <div class="col"> {{ results.stats[5].stat.name }} {{ results.stats[5].base_stat }}
                     </div>
                 </div>
             </div>

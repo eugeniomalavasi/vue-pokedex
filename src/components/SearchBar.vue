@@ -51,7 +51,7 @@
         </div>
 
         <div class="row">
-            <div class="col border" v-for="(pokemon, index) in results" :key="index">
+            <div class="col-md-3 mt-3 p-2 border border-black rounded" v-for="(pokemon, index) in results" :key="index">
                 <img :src="pokemon.sprites.front_default" class="card-img-top" :alt="pokemon.name">
                 <div class="card-body row">
                     <h5 class="card-title">{{ pokemon.name }}</h5>

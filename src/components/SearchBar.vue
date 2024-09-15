@@ -44,7 +44,7 @@
 
 <template>
     <div class="container">
-        <div>
+        <div class="">
             <label for="searchInp">Pokemon Name</label>
             <input type="text" id="searchInp" v-model="pokemonInp">
             <button type="submit" @click="pokeSearch()" class="btn btn-outline-primary">Search</button>
@@ -55,8 +55,10 @@
                 <img :src="pokemon.sprites.front_default" class="card-img-top" :alt="pokemon.name">
                 <div class="card-body row">
                     <h5 class="card-title">{{ pokemon.name }}</h5>
-                    <div class="col" v-for="(stat, statIndex) in pokemon.stats" :key="statIndex">
-                        {{ stat.stat.name }}: {{ stat.base_stat }}
+                    <div v-for="(stat, statIndex) in pokemon.stats" :key="statIndex">
+                        <div class="progress mt-1 mb-1" role="progressbar" aria-label="stats" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" :style="{ width: stat.base_stat + '%' }">{{ stat.stat.name }}: {{ stat.base_stat }}</div>
+                        </div>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-danger" @click="pokeDelete(index)">delete</button>
